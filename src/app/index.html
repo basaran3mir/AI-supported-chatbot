@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Static files -->
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="static/js/script.js"></script>
+
+    <!-- Google Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+
+    <title>BE-Bot</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div class="mipo-bot">
+        <div class="chat-bot" id="chatBot">
+            <div class="chat-logo" id="chatLogo">
+                <div class="remove-button" id="removeButton"></div>
+                <div class="mipo-logo" id="mipoLogo">
+                    <img src="static/images/mipo.png"
+                        alt="Chat Bot">
+                </div>
+                <div class="chat-reminder" id="chatReminder">
+                    <div class="reminder">
+                        Yardım
+                    </div>
+                </div>
+                <div class="chat-container" id="chatContainer">
+                    <div class="chat-header" id="chatHeader">
+                        <div class="chat-header-part-name">
+                            <p class="chat-header-name" id="chatHeaderName">BE-Bot</p>
+                        </div>
+                        <div class="chat-header-close-div" id="closeDiv"></div>
+                    </div>
+                    <div class="chat" id="chat">
+                        <div class="chat-body" id="chatBody">
+                        </div>
+                    </div>
+                    <div class="chat-sss">
+                        <button class="chat-sss-button" id="getSss">
+                            Son Sorulan Sorular
+                        </button>
+                        <button class="chat-sss-button" id="getSsl">
+                            Sık Sorulan Sorular
+                        </button>
+                    </div>
+                    <div class="chat-footer" id="chatFooter">
+                        <div class="chat-footer-input">
+                            <input type="text" class="chat-input" id="chatInput" placeholder=". . ." rows="1">
+                        </div>
+                        <div class="chat-footer-submit">
+                            <button class="chat-submit" id="chatSubmit">
+                                <img class="send-img"
+                                    src="static/images/send-icon-black.png"
+                                    height="25" />
+                            </button>
+                        </div>
+                        <div class="chat-footer-stop">
+                            <button class="chat-stop" id="chatStop">
+                                <img class="stop-img"
+                                    src="static/images/stop-button-black.png"
+                                    height="25" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

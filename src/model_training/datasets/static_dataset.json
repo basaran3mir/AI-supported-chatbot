@@ -1,0 +1,32 @@
+{
+  "intents": [
+    {
+      "tag": "Selam",
+      "patterns": [
+        "Selam"
+      ],
+      "response": "Selam! Naber?"
+    },
+    {
+      "tag": "Merhaba",
+      "patterns": [
+        "Merhaba"
+      ],
+      "response": "Merhaba! Naber?"
+    },
+    {
+      "tag": "İyiyim",
+      "patterns": [
+        "İyiyim"
+      ],
+      "response": "Bunu duyduğuma sevindim."
+    },
+    {
+      "tag": "Kötüyüm",
+      "patterns": [
+        "Kötüyüm"
+      ],
+      "response": "Bunu duyduğuma üzüldüm. Keşke senin için yapabileceğim bir şeyler olsa."
+    }
+  ]
+}
