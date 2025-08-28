@@ -1,32 +1,60 @@
 {
   "intents": [
     {
+      "tag": "Merhaba",
+      "patterns": [
+        "Merhaba"
+      ],
+      "response": "Merhaba. Size nasıl yardımcı olabilirim?"
+    },
+    {
+      "tag": "Kendinizi tanıtır mısınız?",
+      "patterns": [
+        "Kendinizi tanıtır mısınız?"
+      ],
+      "response": "11 Haziran 2001 tarihinde İstanbul'da doğdum ve yaşıyorum. Lise yıllarımdan itibaren yazılım geliştirme alanı ile ilgilenmekteyim. Kocaeli Üniversitesi bilgisayar mühendisliği bölümünden mezun oldum. Stajımı Vakıfbank şirketinde yaptıktan sonra şu an Aral bünyesinde bulunan Hometech şirketinde çalışıyorum."
+    },
+    {
+      "tag": "Mevcut işiniz nedir?",
+      "patterns": [
+        "Mevcut işiniz nedir?"
+      ],
+      "response": "2024 Haziran ayından beri ARAL bünyesinde bulunan Hometech firmasında Ar-Ge merkezinde yazılım geliştirici olarak görev yapıyorum."
+    },
+    {
+      "tag": "Size nasıl ulaşabilirim?",
+      "patterns": [
+        "Size nasıl ulaşabilirim?"
+      ],
+      "response": "Bana ulaşabileceğiniz e-posta adresim ebasaran999@gmail.com."
+    },
+    {
       "tag": "Selam",
       "patterns": [
         "Selam"
       ],
-      "response": "Selam! Naber?"
+      "response": "Selam. Size nasıl yardımcı olabilirim?"
     },
     {
       "tag": "Merhaba",
       "patterns": [
         "Merhaba"
       ],
-      "response": "Merhaba! Naber?"
+      "response": "Merhaba. Size nasıl yardımcı olabilirim?"
     },
     {
       "tag": "İyiyim",
       "patterns": [
         "İyiyim"
       ],
-      "response": "Bunu duyduğuma sevindim."
+      "response": "Bunu duyduğuma sevindim. Size nasıl yardımcı olabilirim?"
     },
     {
       "tag": "Kötüyüm",
       "patterns": [
         "Kötüyüm"
       ],
-      "response": "Bunu duyduğuma üzüldüm. Keşke senin için yapabileceğim bir şeyler olsa."
+      "response": "Bunu duyduğuma üzüldüm. Size nasıl yardımcı olabilirim?"
     }
   ]
 }

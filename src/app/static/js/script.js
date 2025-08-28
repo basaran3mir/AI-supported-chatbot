@@ -27,14 +27,14 @@ document.addEventListener('DOMContentLoaded', function () {
     })
     submitButton.addEventListener('click', function () {
         const userMessage = chatInput.value.trim()
-        sendMessageFromUserToBot(userMessage);
+        sendDynamicMessageFromUserToBot(userMessage);
         chatInput.blur();
     })
     chatInput.addEventListener('keydown', function (event) {
         if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault();
             const userMessage = chatInput.value.trim()
-            sendMessageFromUserToBot(userMessage);
+            sendDynamicMessageFromUserToBot(userMessage);
             chatInput.blur();
         }
     });
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
     startChat()
 
     //MAIN FS
-    async function sendNormalMessageFromBotToUser(botMessage) {
+    async function sendStaticMessageFromBotToUser(botMessage) {
         const botMessageTopDiv = document.createElement('div');
         botMessageTopDiv.classList.add('chat-body-bot-part')
 
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
         chatBody.scrollTop = chatBody.scrollHeight;
     }
 
-    async function sendMessageFromBotToUser(userMessage) {
+    async function sendDynamicMessageFromBotToUser(userMessage) {
 
         const botMessageTopDiv = document.createElement('div');
         botMessageTopDiv.classList.add('chat-body-bot-part');
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 responseButtons.push(responseButton);
 
                 responseButton.onclick = function () {
-                    sendMessageFromUserToBot(responseButton.textContent)
+                    sendDynamicMessageFromUserToBot(responseButton.textContent)
                     if (removeOnClick == true) {
                         responseDiv.removeChild(responseButtonsDiv);
                     }
@@ -182,13 +182,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     responseDiv.removeChild(responseButtonsDiv);
                 }
 
-                sendNormalMessageFromUserToBot("Aradığım burada değil");
+                sendStaticMessageFromUserToBot("Aradığım burada değil");
                 if (modelType == "MultinomialNB") {
                     modelType = "LinearSVC"
-                    sendMessageFromBotToUser(responseData.question);
+                    sendDynamicMessageFromBotToUser(responseData.question);
                 }
                 else {
-                    sendNormalMessageFromBotToUser("Daha fazla bilgi için: ebasaran999@gmail.com");
+                    sendStaticMessageFromBotToUser("Daha fazla bilgi için: ebasaran999@gmail.com");
                 }
 
             };
@@ -213,28 +213,7 @@ document.addEventListener('DOMContentLoaded', function () {
         chatBody.scrollTop = chatBody.scrollHeight;
     }
 
-    function sendNormalMessageFromUserToBot(userMessage) {
-        if (userMessage === '') return;
-
-        const userMessageTopDiv = document.createElement('div');
-        userMessageTopDiv.classList.add('chat-body-user-part');
-
-        const userMessageElement = document.createElement('p');
-        userMessageElement.textContent = userMessage;
-        userMessageElement.classList.add('user-message');
-
-        const userMessagesDiv = document.createElement('div');
-        userMessagesDiv.classList.add('chat-body-user-messages');
-        userMessagesDiv.append(userMessageElement)
-
-        userMessageTopDiv.appendChild(userMessagesDiv);
-        chatBody.appendChild(userMessageTopDiv);
-
-        chatInput.value = '';
-        chatBody.scrollTop = chatBody.scrollHeight;
-    }
-
-    function sendNormalMessageFromUserToBot(userMessage) {
+    function sendStaticMessageFromUserToBot(userMessage) {
         if (userMessage === '') return;
         const startDiv = document.getElementById("startDiv");
         if (chatBody.contains(startDiv)) {
@@ -260,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function () {
         chatBody.scrollTop = chatBody.scrollHeight;
     }
 
-    function sendMessageFromUserToBot(userMessage) {
+    function sendDynamicMessageFromUserToBot(userMessage) {
         if (userMessage === '') return;
         const startDiv = document.getElementById("startDiv");
         if (chatBody.contains(startDiv)) {
@@ -284,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         chatInput.value = '';
         modelType = "MultinomialNB"
-        sendMessageFromBotToUser(userMessage)
+        sendDynamicMessageFromBotToUser(userMessage)
         chatBody.scrollTop = chatBody.scrollHeight;
     }
 
@@ -364,17 +343,10 @@ document.addEventListener('DOMContentLoaded', function () {
         startDiv.id = "startDiv"
 
         const buttonData = [
-            "Merhaba!",
-            "Ürünler hakkında bilgi almak istiyorum.",
-            "Ürünler ile ilgili bir sorum var.",
-            "Acil desteğe ihtiyacım var."
-        ];
-
-        const response = [
-            "Merhaba! Ben Mipo Bot. Size nasıl yardımcı olabilirim?",
-            "Merhaba! Hangi ürünümüz hakkında bilgi almak istersiniz?",
-            "Merhaba! Sorunuz hakkında nasıl yardımcı olabilirim?",
-            "Merhaba! Acil destek için destek ekibimize ulaşabilirsiniz: 0850 622 77 20"
+            "Merhaba",
+            "Kendinizi tanıtır mısınız?",
+            "Mevcut işiniz nedir?",
+            "Size nasıl ulaşabilirim?"
         ];
 
         for (let i = 0; i < buttonData.length; i++) {
@@ -384,8 +356,7 @@ document.addEventListener('DOMContentLoaded', function () {
             button.textContent = buttonData[i];
 
             button.addEventListener('click', function () {
-                sendNormalMessageFromUserToBot(button.textContent)
-                sendNormalMessageFromBotToUser(response[i])
+                sendDynamicMessageFromUserToBot(button.textContent)
             });
 
             startDiv.appendChild(button);
