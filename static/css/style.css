@@ -32,11 +32,6 @@
 *::before,
 *::after {
     box-sizing: border-box;
-    /*
-    transition: background-color 0.3s ease,
-        color 0.3s ease,
-        border-color 0.3s ease;
-    */
 }
 
 html {
@@ -75,45 +70,22 @@ p {
     user-select: none;
 }
 
-.chat-bot .chat-bot-logo {
-    position: fixed;
+.chat-bot .bot-logo {
     bottom: 20px;
     right: 20px;
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    border: 1px solid var(--text-accent);
     cursor: pointer;
     z-index: 9;
 }
 
-.chat-bot .chat-bot-logo img {
+.chat-bot .bot-logo img {
     height: 100%;
     width: 100%;
 }
 
-.chat-bot .remove-button {
-    position: absolute;
-    right: unset;
-    right: -2px;
-    top: 0;
-    background-color: #10c98f;
-    height: 15%;
-    width: 15%;
-    clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
-    z-index: 10;
-
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.chat-bot .chat-bot-logo:hover .remove-button {
-    opacity: 1;
-    visibility: visible;
-}
-
-.chat-reminder {
+.bot-reminder {
     background-color: #272727;
     color: white;
     position: absolute;
@@ -121,19 +93,19 @@ p {
     right: 20px;
     padding: 20px;
     border-radius: 20px;
-    opacity: 0;
     border: 2px solid #10c98f;
+    width: max-content;
+    opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
-    width: max-content;
 }
 
-.chat-bot:hover .chat-reminder {
+.chat-bot:hover .bot-reminder {
     opacity: 1;
     visibility: visible;
 }
 
-.chat-container {
+.bot-container {
     position: absolute;
     bottom: 100px;
     right: 20px;
@@ -156,13 +128,13 @@ p {
     visibility: visible;
 }
 
-.chat-header {
+.bot-header {
     color: white;
     background-color: #272727;
     height: 12%;
 }
 
-.chat-header-part-name {
+.bot-header-part-name {
     width: 100%;
     height: 100%;
     background-color: #272727;
@@ -172,7 +144,7 @@ p {
     cursor: default;
 }
 
-.chat-header-close-div {
+.bot-header-close {
     width: 25px;
     height: 25px;
     position: absolute;
@@ -201,20 +173,20 @@ p {
 
 }
 
-.chat-header-name {
+.bot-header-name {
     text-align: left;
     padding: 0 !important;
     margin: 0px 0px 0px 20px !important;
 }
 
-.chat {
+.bot {
     display: flex;
     flex-direction: column;
     height: 68%;
     background-color: #F1F1F1
 }
 
-.chat-body {
+.bot-body {
     padding: 10px;
     padding-bottom: 0px;
     margin-bottom: 10px;
@@ -222,7 +194,7 @@ p {
     overflow-y: auto;
 }
 
-.start-div {
+.pre-questions-area {
     height: 100%;
     width: 100%;
     display: flex;
@@ -230,7 +202,7 @@ p {
     align-items: flex-end;
 }
 
-.start-div button {
+.pre-questions-area button {
     background-color: #E5E5E5;
     color: #272727;
     border-radius: 20px;
@@ -240,12 +212,12 @@ p {
     height: 30px;
 }
 
-.start-div button:hover {
+.pre-questions-area button:hover {
     border: 2px solid #10c98f;
     cursor: pointer;
 }
 
-.chat-body-bot-part {
+.bot-body-bot-part {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -253,7 +225,7 @@ p {
     margin-bottom: 10px;
 }
 
-.chat-body-bot-messages {
+.bot-body-bot-messages {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -265,7 +237,7 @@ p {
     width: 40px;
 }
 
-.chat-body-bot-responses {
+.bot-body-bot-responses {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -324,13 +296,13 @@ p {
     color: #fa1500;
 }
 
-.chat-body-user-part {
+.bot-body-user-part {
     width: 100%;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-.chat-body-user-messages {
+.bot-body-user-messages {
     display: flex;
     flex-direction: column;
 }
@@ -346,7 +318,7 @@ p {
     border-bottom-right-radius: 0px;
 }
 
-.chat-sss {
+.bot-sss {
     display: flex;
     flex-direction: row;
     height: 6%;
@@ -356,7 +328,7 @@ p {
     background-color: #F1F1F1;
 }
 
-.chat-sss button {
+.bot-sss button {
     height: 100%;
     width: 50%;
     background-color: #E5E5E5;
@@ -366,7 +338,7 @@ p {
     box-sizing: border-box;
 }
 
-.chat-sss button:hover {
+.bot-sss button:hover {
     border: 2px solid #10c98f;
     cursor: pointer;
 }
@@ -379,7 +351,7 @@ p {
     width: 5px;
 }
 
-.chat-footer {
+.bot-footer {
     height: 14%;
     width: 100%;
     display: flex;
@@ -388,7 +360,7 @@ p {
     padding-bottom: 5px;
 }
 
-.chat-footer-input {
+.bot-footer-input {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -396,21 +368,21 @@ p {
     width: 100%;
 }
 
-.chat-footer-submit {
+.bot-footer-submit {
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.chat-footer-stop {
+.bot-footer-stop {
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.chat-input {
+.bot-input {
     outline: none;
     border: 2px solid transparent;
     background-color: #E5E5E5;
@@ -420,11 +392,11 @@ p {
     padding: 0 60px 0 20px;
 }
 
-.chat-input:focus {
+.bot-input:focus {
     border: 2px solid #10c98f;
 }
 
-.chat-submit {
+.bot-submit {
     background-color: transparent;
     border: 0 !important;
     cursor: pointer;
@@ -436,7 +408,7 @@ p {
     transition: transform 0.2s ease;
 }
 
-.chat-stop {
+.bot-stop {
     background-color: transparent;
     border: 0 !important;
     cursor: pointer;
@@ -445,25 +417,25 @@ p {
     display: none;
 }
 
-.chat-stop img {
+.bot-stop img {
     height: 25px;
 }
 
-.chat-stop:hover img {
+.bot-stop:hover img {
     content: url('../images/stop-button-green.png');
 }
 
-.chat-submit img {
+.bot-submit img {
     height: 25px;
 }
 
-.chat-submit:hover img {
+.bot-submit:hover img {
     content: url('../images/send-icon-green.png');
     transform: rotate(-45deg);
 }
 
 @media (max-width: 768px) {
-    .chat-reminder {
+    .bot-reminder {
         display: none !important;
     }
 
@@ -471,7 +443,7 @@ p {
         display: none !important;
     }
 
-    .chat-header-close-div {
+    .bot-header-close {
         display: none !important;
     }
 }

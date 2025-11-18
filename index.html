@@ -1,72 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 
 <head>
-    <!-- Static files -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="This website includes Emir Can Başaran's personal chatBot.">
+    <title>BeBot</title>
+    <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
     <link rel="stylesheet" href="static/css/style.css">
-    <script src="static/js/script.js"></script>
+    <script type="module" src="static/js/script.js" defer></script>
 
-    <!-- Google Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
         rel="stylesheet">
-
-    <title>BeBot</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
     <div class="chat-bot" id="chatBot">
-        <div class="chat-bot-logo" id="mipoLogo">
-            <img src="static/images/mipo.png" alt="Chat Bot">
-            <div class="remove-button" id="removeButton"></div>
+        <div class="bot-logo" id="botLogo">
+            <img src="static/images/mipo.png" alt="bot Bot">
         </div>
-        
-        <div class="chat-reminder" id="chatReminder">
+        <div class="bot-reminder" id="botReminder">
             <div class="reminder">
                 Merhaba
             </div>
         </div>
-        <div class="chat-container" id="chatContainer">
-            <div class="chat-header" id="chatHeader">
-                <div class="chat-header-part-name">
-                    <p class="chat-header-name" id="chatHeaderName">BE-Bot</p>
+        <div class="bot-container" id="botContainer">
+            <div class="bot-header" id="botHeader">
+                <div class="bot-header-part-name">
+                    <p class="bot-header-name" id="botHeaderName">BE-Bot</p>
                 </div>
-                <div class="chat-header-close-div" id="closeDiv"></div>
+                <div class="bot-header-close" id="botHeaderClose"></div>
             </div>
-            <div class="chat" id="chat">
-                <div class="chat-body" id="chatBody">
+            <div class="bot" id="bot">
+                <div class="bot-body" id="botBody">
                 </div>
             </div>
-            <div class="chat-sss">
-                <button class="chat-sss-button" id="getSss">
+            <div class="bot-sss">
+                <button class="bot-sss-button" id="getSss">
                     Son Sorulan Sorular
                 </button>
-                <button class="chat-sss-button" id="getSsl">
+                <button class="bot-sss-button" id="getSsl">
                     Sık Sorulan Sorular
                 </button>
             </div>
-            <div class="chat-footer" id="chatFooter">
-                <div class="chat-footer-input">
-                    <input type="text" class="chat-input" id="chatInput" placeholder=". . ." rows="1">
+            <div class="bot-footer" id="botFooter">
+                <div class="bot-footer-input">
+                    <input type="text" class="bot-input" id="botInput" placeholder=". . ." rows="1">
                 </div>
-                <div class="chat-footer-submit">
-                    <button class="chat-submit" id="chatSubmit">
+                <div class="bot-footer-submit">
+                    <button class="bot-submit" id="botSubmit">
                         <img class="send-img" src="static/images/send-icon-black.png" height="25" />
                     </button>
                 </div>
-                <div class="chat-footer-stop">
-                    <button class="chat-stop" id="chatStop">
+                <div class="bot-footer-stop">
+                    <button class="bot-stop" id="botStop">
                         <img class="stop-img" src="static/images/stop-button-black.png" height="25" />
                     </button>
                 </div>
             </div>
         </div>
     </div>
-
 </body>
 
 </html>
