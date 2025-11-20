@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function () {
         botMessagesDiv.classList.add('bot-body-bot-messages')
 
         const botImg = document.createElement('img');
-        botImg.src = "static/images/mipo.png"
+        botImg.src = "static/images/logo.png"
         botImg.classList.add('bot-img');
 
         const botMessageTag = document.createElement('p');
@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
         botMessagesDiv.classList.add('bot-body-bot-messages');
 
         const botImg = document.createElement('img');
-        botImg.src = "static/images/mipo.png"
+        botImg.src = "static/images/logo.png"
         botImg.classList.add('bot-img')
 
         const botMessageTag = document.createElement('p');
