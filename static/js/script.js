@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const predict_url_end = "/predict";
     let modelType = "MultinomialNB";
 
+    const bot = document.getElementById('chatBot')
     const botLogo = document.getElementById('botLogo');
     const botReminder = document.getElementById('botReminder');
     const botContainer = document.getElementById('botContainer');
@@ -21,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function setOnClickers() {
         function togglebotWindow() {
-            botContainer.classList.toggle("showing");
+            bot.classList.toggle("showing");
         }
 
         function handleUserMessage() {
