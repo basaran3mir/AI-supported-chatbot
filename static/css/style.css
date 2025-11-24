@@ -139,7 +139,7 @@ p {
     justify-content: flex-end;
     background-color: #F1F1F1;
     width: 350px;
-    height: 500px;
+    max-height: 550px;
 
     transform: translateY(20px);
     pointer-events: none;
@@ -206,12 +206,11 @@ p {
 .bot-body {
     display: flex;
     flex-direction: column;
-    height: 200px;
+    height: 400px;
     background-color: #F1F1F1;
     padding: 10px;
     padding-bottom: 0px;
     margin-bottom: 10px;
-    height: 100%;
     overflow-y: auto;
 }
 

@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const botContainer = document.getElementById('botContainer');
     const botBody = document.getElementById('botBody');
     const submitButton = document.getElementById('botSubmit');
-    const stopButton = document.getElementById('botStop');
     const botInput = document.getElementById('botInput');
     const closer = document.getElementById("botHeaderClose");
 
@@ -372,7 +371,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function botTypeWriterEffect(element, text, typewriterSpeed) {
         element.innerHTML = '';
         submitButton.style.display = 'none';
-        stopButton.style.display = 'block';
 
         let index = 0;
         const interval = setInterval(() => {
@@ -382,8 +380,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
         }, typewriterSpeed);
-        stopButton.tabIndex = 0;
-        stopButton.addEventListener('click', () => {
+        submitButton.tabIndex = 0;
+        submitButton.addEventListener('click', () => {
             completeTyping();
         });
         botInput.addEventListener('keydown', function (event) {
@@ -396,15 +394,7 @@ document.addEventListener('DOMContentLoaded', function () {
         function completeTyping() {
             clearInterval(interval);
             submitButton.style.display = 'block';
-            stopButton.style.display = 'none';
         }
-    }
-
-    function getWindowSize() {
-        const height = window.innerHeight;
-        const width = window.innerWidth;
-
-        return [height, width];
     }
 
     init()
