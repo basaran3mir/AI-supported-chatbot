@@ -86,15 +86,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function setDraggablebot() {
         const elmnt = document.getElementById('chatBot');
-        const logo = document.getElementById('botLogo')
-        logo.onmousedown = dragMouseDown;
-        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        if (!elmnt) return;
+
+        elmnt.onmousedown = dragMouseDown;
+
+        let startX = 0, startY = 0;
+        let origLeft = 0, origTop = 0;
+        const PADDING = 20;
 
         function dragMouseDown(e) {
             e = e || window.event;
             e.preventDefault();
-            pos3 = e.clientX;
-            pos4 = e.clientY;
+
+            startX = e.clientX;
+            startY = e.clientY;
+
+            const rect = elmnt.getBoundingClientRect();
+            origLeft = rect.left;
+            origTop = rect.top;
+
             document.onmouseup = closeDragElement;
             document.onmousemove = elementDrag;
         }
@@ -102,99 +112,78 @@ document.addEventListener('DOMContentLoaded', function () {
         function elementDrag(e) {
             e = e || window.event;
             e.preventDefault();
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
 
-            let botRight = (parseInt(getComputedStyle(elmnt).right) + pos1);
-            let chatBottom = (parseInt(getComputedStyle(elmnt).bottom) + pos2);
-            elmnt.style.right = botRight + "px";
-            elmnt.style.bottom = chatBottom + "px";
+            const deltaX = e.clientX - startX;
+            const deltaY = e.clientY - startY;
 
-            let mode = ['S', 'E'];
-            const [windowHeight, windowWidth] = getWindowSize();
+            let newLeft = origLeft + deltaX;
+            let newTop = origTop + deltaY;
 
-            if (chatBottom < windowHeight / 2) {
-                mode[0] = 'S'
-                botReminder.style.top = "unset";
-                botReminder.style.bottom = "100px";
+            const maxLeft = window.innerWidth - elmnt.offsetWidth - PADDING;
+            const maxTop = window.innerHeight - elmnt.offsetHeight - PADDING;
 
-                botContainer.style.top = "unset";
-                botContainer.style.bottom = "100px";
+            if (newLeft < PADDING) newLeft = PADDING;
+            if (newLeft > maxLeft) newLeft = maxLeft;
+            if (newTop < PADDING) newTop = PADDING;
+            if (newTop > maxTop) newTop = maxTop;
+
+            elmnt.style.left = newLeft + 'px';
+            elmnt.style.top = newTop + 'px';
+            elmnt.style.right = 'unset';
+            elmnt.style.bottom = 'unset';
+
+            const centerX = newLeft + elmnt.offsetWidth / 2;
+            const centerY = newTop + elmnt.offsetHeight / 2;
+            const windowCenterX = window.innerWidth / 2;
+            const windowCenterY = window.innerHeight / 2;
+
+            if (centerY < windowCenterY) {
+                botReminder.style.top = '100px';
+                botReminder.style.bottom = 'unset';
+                botContainer.style.top = '100px';
+                botContainer.style.bottom = 'unset';
+            } else {
+                botReminder.style.top = 'unset';
+                botReminder.style.bottom = '100px';
+                botContainer.style.top = 'unset';
+                botContainer.style.bottom = '100px';
             }
-            else if (chatBottom >= windowHeight / 2) {
-                mode[0] = 'N'
-                botReminder.style.top = "100px";
-                botReminder.style.bottom = "unset";
-
-                botContainer.style.top = "100px";
-                botContainer.style.bottom = "unset";
+            if (centerX < windowCenterX) {
+                botReminder.style.left = '20px';
+                botReminder.style.right = 'unset';
+                botContainer.style.left = '20px';
+                botContainer.style.right = 'unset';
+            } else {
+                botReminder.style.left = 'unset';
+                botReminder.style.right = '20px';
+                botContainer.style.left = 'unset';
+                botContainer.style.right = '20px';
             }
-
-            if (botRight < windowWidth / 2) {
-                mode[1] = 'E'
-                botReminder.style.right = "20px";
-                botReminder.style.left = "unset";
-
-                botContainer.style.right = "20px";
-                botContainer.style.left = "unset";
-            }
-            else if (botRight >= windowWidth / 2) {
-                mode[1] = 'W'
-                botReminder.style.right = "unset";
-                botReminder.style.left = "20px";
-
-                botContainer.style.right = "unset";
-                botContainer.style.left = "20px";
-            }
-
         }
 
         function closeDragElement() {
             document.onmouseup = null;
             document.onmousemove = null;
         }
+
+        window.addEventListener('resize', () => {
+            const rect = elmnt.getBoundingClientRect();
+            const maxLeft = window.innerWidth - elmnt.offsetWidth - PADDING;
+            const maxTop = window.innerHeight - elmnt.offsetHeight - PADDING;
+            let left = rect.left, top = rect.top;
+            if (left > maxLeft) left = maxLeft;
+            if (top > maxTop) top = maxTop;
+            if (left < PADDING) left = PADDING;
+            if (top < PADDING) top = PADDING;
+            elmnt.style.left = left + 'px';
+            elmnt.style.top = top + 'px';
+            elmnt.style.right = 'unset';
+            elmnt.style.bottom = 'unset';
+        });
     }
 
     //MAIN FS
-    async function sendStaticMessageFromBotToUser(botMessage) {
-        const botMessageTopDiv = document.createElement('div');
-        botMessageTopDiv.classList.add('bot-body-bot-part')
-
-        const botMessagesDiv = document.createElement('div');
-        botMessagesDiv.classList.add('bot-body-bot-messages')
-
-        const botImg = document.createElement('img');
-        botImg.src = "static/images/logo.png"
-        botImg.classList.add('bot-img');
-
-        const botMessageTag = document.createElement('p');
-        botMessageTag.classList.add('bot-message');
-        botMessageTag.id = "botMessage"
-
-        const botMessageDiv = document.createElement('div');
-        botMessageDiv.classList.add('bot-message-div')
-
-        const responseDiv = document.createElement('div');
-        responseDiv.classList.add('bot-body-bot-responses')
-
-        botMessageDiv.appendChild(botMessageTag)
-        responseDiv.appendChild(botMessageDiv)
-        botMessagesDiv.appendChild(botImg);
-        botMessagesDiv.appendChild(responseDiv)
-        botMessageTopDiv.appendChild(botMessagesDiv);
-        botBody.appendChild(botMessageTopDiv)
-
-        typewriterEffect(botMessageTag, '. . .', 100);
-        await delay(1500)
-        typewriterEffect(botMessageTag, botMessage, 25)
-
-        botBody.scrollTop = botBody.scrollHeight;
-    }
-
-    async function sendDynamicMessageFromBotToUser(userMessage) {
-
+    function createBotMessageContainer() {
         const botMessageTopDiv = document.createElement('div');
         botMessageTopDiv.classList.add('bot-body-bot-part');
 
@@ -202,12 +191,11 @@ document.addEventListener('DOMContentLoaded', function () {
         botMessagesDiv.classList.add('bot-body-bot-messages');
 
         const botImg = document.createElement('img');
-        botImg.src = "static/images/logo.png"
-        botImg.classList.add('bot-img')
+        botImg.src = "static/images/logo.png";
+        botImg.classList.add('bot-img');
 
         const botMessageTag = document.createElement('p');
         botMessageTag.classList.add('bot-message');
-        botMessageTag.id = "botMessage"
 
         const botMessageDiv = document.createElement('div');
         botMessageDiv.classList.add('bot-message-div');
@@ -215,159 +203,132 @@ document.addEventListener('DOMContentLoaded', function () {
         const responseDiv = document.createElement('div');
         responseDiv.classList.add('bot-body-bot-responses');
 
-        botMessageDiv.appendChild(botMessageTag)
-        responseDiv.appendChild(botMessageDiv)
+        botMessageDiv.appendChild(botMessageTag);
+        responseDiv.appendChild(botMessageDiv);
         botMessagesDiv.appendChild(botImg);
-        botMessagesDiv.appendChild(responseDiv)
+        botMessagesDiv.appendChild(responseDiv);
         botMessageTopDiv.appendChild(botMessagesDiv);
         botBody.appendChild(botMessageTopDiv);
 
-        typewriterEffect(botMessageTag, '. . .', 100)
-        let responseData = await predict(userMessage, modelType);
-        let return_code_ACCAPTABLE = "predict-is-acceptable"
-        let return_code_BETWEEN = 'predict-is-between-min-and-max-prob'
-        let return_code_BELOW = 'predict-is-below-min-prob'
-        let return_code_ERROR = 'error'
-        await delay(1500)
+        return { botMessageTag, responseDiv };
+    }
 
-        let removeOnClick = true
-        if (responseData.return_code == return_code_ACCAPTABLE) {
-            const text = responseData.response[0]
-            typewriterEffect(botMessageTag, text, 25);
-            responseDiv.appendChild(botMessageDiv)
-            botMessagesDiv.appendChild(responseDiv)
+    function addUserMessage(userMessage) {
+        const userMessageTopDiv = document.createElement('div');
+        userMessageTopDiv.classList.add('bot-body-user-part');
 
+        const userMessageElement = document.createElement('p');
+        userMessageElement.textContent = userMessage;
+        userMessageElement.classList.add('user-message');
+
+        const userMessagesDiv = document.createElement('div');
+        userMessagesDiv.classList.add('bot-body-user-messages');
+
+        userMessagesDiv.appendChild(userMessageElement);
+        userMessageTopDiv.appendChild(userMessagesDiv);
+        botBody.appendChild(userMessageTopDiv);
+
+        botInput.value = '';
+        botBody.scrollTop = botBody.scrollHeight;
+    }
+
+    function removePreQuestionsArea() {
+        const area = document.getElementById("preQuestionsArea");
+        if (botBody.contains(area)) {
+            botBody.removeChild(area);
         }
-        else if (responseData.return_code == return_code_BETWEEN) {
-            if (modelType == "MultinomialNB") {
-                const text = "Hangisini demek istediniz?";
-                typewriterEffect(botMessageTag, text, 25);
-            }
-            else {
-                const text = "Seçeneklerim";
-                typewriterEffect(botMessageTag, text, 25);
-            }
-            responseDiv.appendChild(botMessageDiv);
+    }
 
-            const responseButtonsDiv = document.createElement('div');
-            responseButtonsDiv.classList.add('bot-message-buttons');
+    async function sendStaticMessageFromBotToUser(botMessage) {
+        const { botMessageTag } = createBotMessageContainer();
 
-            var responseButtons = [];
-            for (var i = 0; i < responseData.tag.length; i++) {
+        botTypeWriterEffect(botMessageTag, '. . .', 100);
+        await delay(1500);
+        botTypeWriterEffect(botMessageTag, botMessage, 25);
 
-                var response = responseData.tag[i];
-                const responseButton = document.createElement('button');
-                responseButton.classList.add('bot-message-button');
-                responseButton.id = "botMessageButton"
-                responseButton.textContent = response;
-                responseButtons.push(responseButton);
+        botBody.scrollTop = botBody.scrollHeight;
+    }
 
-                responseButton.onclick = function () {
-                    sendDynamicMessageFromUserToBot(responseButton.textContent)
-                    if (removeOnClick == true) {
-                        responseDiv.removeChild(responseButtonsDiv);
-                    }
+    async function sendDynamicMessageFromBotToUser(userMessage) {
+
+        const { botMessageTag, responseDiv } = createBotMessageContainer();
+
+        botTypeWriterEffect(botMessageTag, '. . .', 100);
+        const responseData = await predict(userMessage, modelType);
+        await delay(1500);
+
+        const OK = "predict-is-acceptable";
+        const BETWEEN = "predict-is-between-min-and-max-prob";
+        const BELOW = "predict-is-below-min-prob";
+        const ERROR = "error";
+
+        if (responseData.return_code === OK) {
+            botTypeWriterEffect(botMessageTag, responseData.response[0], 25);
+        }
+        else if (responseData.return_code === BELOW) {
+            botTypeWriterEffect(botMessageTag, "Üzgünüm, sorunu anlamadım.", 25);
+        }
+        else if (responseData.return_code === ERROR) {
+            botTypeWriterEffect(botMessageTag, "Üzgünüm, şu an yardımcı olamıyorum.", 25);
+        }
+        else if (responseData.return_code === BETWEEN) {
+
+            const text = (modelType === "MultinomialNB")
+                ? "Hangisini demek istediniz?"
+                : "Seçeneklerim";
+
+            botTypeWriterEffect(botMessageTag, text, 25);
+
+            const buttonArea = document.createElement('div');
+            buttonArea.classList.add('bot-message-buttons');
+
+            responseData.tag.forEach(option => {
+                const btn = document.createElement('button');
+                btn.classList.add('bot-message-button');
+                btn.textContent = option;
+                btn.onclick = () => {
+                    sendDynamicMessageFromUserToBot(option);
+                    buttonArea.remove();
                 };
+                buttonArea.appendChild(btn);
+            });
 
-                responseButtonsDiv.appendChild(responseButton)
-                responseDiv.appendChild(responseButtonsDiv);
+            const notFoundBtn = document.createElement('button');
+            notFoundBtn.classList.add('bot-message-button');
+            notFoundBtn.textContent = "Aradığım burada değil";
 
-            }
-
-            const notFindOption = document.createElement('button');
-            notFindOption.id = "botMessageButtonNFO";
-            notFindOption.classList.add('bot-message-button');
-            notFindOption.textContent = "Aradığım burada değil";
-            responseButtonsDiv.appendChild(notFindOption)
-
-            notFindOption.onclick = function () {
-                if (removeOnClick == true) {
-                    responseDiv.removeChild(responseButtonsDiv);
-                }
-
+            notFoundBtn.onclick = () => {
+                buttonArea.remove();
                 sendStaticMessageFromUserToBot("Aradığım burada değil");
-                if (modelType == "MultinomialNB") {
-                    modelType = "LinearSVC"
+
+                if (modelType === "MultinomialNB") {
+                    modelType = "LinearSVC";
                     sendDynamicMessageFromBotToUser(responseData.question);
                 }
                 else {
                     sendStaticMessageFromBotToUser("Daha fazla bilgi için: ebasaran999@gmail.com");
                 }
-
             };
-            botMessagesDiv.appendChild(responseDiv);
-        }
-        else if (responseData.return_code == return_code_BELOW) {
-            let text = "Üzgünüm, sorunu anlamadım.";
-            typewriterEffect(botMessageTag, text, 25)
-            responseDiv.appendChild(botMessageDiv)
-            botMessagesDiv.appendChild(responseDiv)
-        }
-        else if (responseData.return_code == return_code_ERROR) {
-            let text = "Üzgünüm, şu an sana yardım edemiyorum.";
-            typewriterEffect(botMessageTag, text, 25)
-            responseDiv.appendChild(botMessageDiv)
-            botMessagesDiv.appendChild(responseDiv)
-        }
 
-        botMessageTopDiv.appendChild(botMessagesDiv);
-        botBody.appendChild(botMessageTopDiv);
+            buttonArea.appendChild(notFoundBtn);
+            responseDiv.appendChild(buttonArea);
+        }
 
         botBody.scrollTop = botBody.scrollHeight;
     }
 
     function sendStaticMessageFromUserToBot(userMessage) {
-        if (userMessage === '') return;
-        const preQuestionsArea = document.getElementById("preQuestionsArea");
-        if (botBody.contains(preQuestionsArea)) {
-            botBody.removeChild(preQuestionsArea);
-        }
-
-        const userMessageTopDiv = document.createElement('div');
-        userMessageTopDiv.classList.add('bot-body-user-part');
-
-        const userMessageElement = document.createElement('p');
-        userMessageElement.textContent = userMessage;
-        userMessageElement.classList.add('user-message');
-        userMessageElement.id = "userMessage"
-
-        const userMessagesDiv = document.createElement('div');
-        userMessagesDiv.classList.add('bot-body-user-messages');
-
-        userMessagesDiv.append(userMessageElement)
-        userMessageTopDiv.appendChild(userMessagesDiv);
-        botBody.appendChild(userMessageTopDiv);
-
-        botInput.value = '';
-        botBody.scrollTop = botBody.scrollHeight;
+        if (!userMessage) return;
+        removePreQuestionsArea();
+        addUserMessage(userMessage);
     }
 
     function sendDynamicMessageFromUserToBot(userMessage) {
-        if (userMessage === '') return;
-        const preQuestionsArea = document.getElementById("preQuestionsArea");
-        if (botBody.contains(preQuestionsArea)) {
-            botBody.removeChild(preQuestionsArea);
-        }
-
-        const userMessageTopDiv = document.createElement('div');
-        userMessageTopDiv.classList.add('bot-body-user-part');
-
-        const userMessageElement = document.createElement('p');
-        userMessageElement.textContent = userMessage;
-        userMessageElement.classList.add('user-message');
-        userMessageElement.id = "userMessage"
-
-        const userMessagesDiv = document.createElement('div');
-        userMessagesDiv.classList.add('bot-body-user-messages');
-
-        userMessagesDiv.append(userMessageElement)
-        userMessageTopDiv.appendChild(userMessagesDiv);
-        botBody.appendChild(userMessageTopDiv);
-
-        botInput.value = '';
-        modelType = "MultinomialNB"
-        sendDynamicMessageFromBotToUser(userMessage)
-        botBody.scrollTop = botBody.scrollHeight;
+        if (!userMessage) return;
+        removePreQuestionsArea();
+        addUserMessage(userMessage);
+        modelType = "MultinomialNB";
+        sendDynamicMessageFromBotToUser(userMessage);
     }
 
     //API FS
@@ -408,7 +369,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    function typewriterEffect(element, text, typewriterSpeed) {
+    function botTypeWriterEffect(element, text, typewriterSpeed) {
         element.innerHTML = '';
         submitButton.style.display = 'none';
         stopButton.style.display = 'block';
