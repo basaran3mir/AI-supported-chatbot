@@ -84,10 +84,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function setDraggablebot() {
-        const elmnt = document.getElementById('chatBot');
-        if (!elmnt) return;
+        const bot = document.getElementById('chatBot');
+        const logo = document.getElementById('botLogo');
+        if (!bot || !logo) return;
 
-        elmnt.onmousedown = dragMouseDown;
+        logo.onmousedown = dragMouseDown;
 
         let startX = 0, startY = 0;
         let origLeft = 0, origTop = 0;
@@ -100,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
             startX = e.clientX;
             startY = e.clientY;
 
-            const rect = elmnt.getBoundingClientRect();
+            const rect = bot.getBoundingClientRect();
             origLeft = rect.left;
             origTop = rect.top;
 
@@ -118,21 +119,21 @@ document.addEventListener('DOMContentLoaded', function () {
             let newLeft = origLeft + deltaX;
             let newTop = origTop + deltaY;
 
-            const maxLeft = window.innerWidth - elmnt.offsetWidth - PADDING;
-            const maxTop = window.innerHeight - elmnt.offsetHeight - PADDING;
+            const maxLeft = window.innerWidth - bot.offsetWidth - PADDING;
+            const maxTop = window.innerHeight - bot.offsetHeight - PADDING;
 
             if (newLeft < PADDING) newLeft = PADDING;
             if (newLeft > maxLeft) newLeft = maxLeft;
             if (newTop < PADDING) newTop = PADDING;
             if (newTop > maxTop) newTop = maxTop;
 
-            elmnt.style.left = newLeft + 'px';
-            elmnt.style.top = newTop + 'px';
-            elmnt.style.right = 'unset';
-            elmnt.style.bottom = 'unset';
+            bot.style.left = newLeft + 'px';
+            bot.style.top = newTop + 'px';
+            bot.style.right = 'unset';
+            bot.style.bottom = 'unset';
 
-            const centerX = newLeft + elmnt.offsetWidth / 2;
-            const centerY = newTop + elmnt.offsetHeight / 2;
+            const centerX = newLeft + bot.offsetWidth / 2;
+            const centerY = newTop + bot.offsetHeight / 2;
             const windowCenterX = window.innerWidth / 2;
             const windowCenterY = window.innerHeight / 2;
 
@@ -166,18 +167,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         window.addEventListener('resize', () => {
-            const rect = elmnt.getBoundingClientRect();
-            const maxLeft = window.innerWidth - elmnt.offsetWidth - PADDING;
-            const maxTop = window.innerHeight - elmnt.offsetHeight - PADDING;
+            const rect = bot.getBoundingClientRect();
+            const maxLeft = window.innerWidth - bot.offsetWidth - PADDING;
+            const maxTop = window.innerHeight - bot.offsetHeight - PADDING;
             let left = rect.left, top = rect.top;
             if (left > maxLeft) left = maxLeft;
             if (top > maxTop) top = maxTop;
             if (left < PADDING) left = PADDING;
             if (top < PADDING) top = PADDING;
-            elmnt.style.left = left + 'px';
-            elmnt.style.top = top + 'px';
-            elmnt.style.right = 'unset';
-            elmnt.style.bottom = 'unset';
+            bot.style.left = left + 'px';
+            bot.style.top = top + 'px';
+            bot.style.right = 'unset';
+            bot.style.bottom = 'unset';
         });
     }
 
