@@ -152,6 +152,10 @@ p {
     pointer-events: auto;
 }
 
+.bot-container-part {
+    padding: 10px;
+}
+
 .bot-header {
     color: var(--text-primary);
     background-color: #272727;
@@ -168,7 +172,6 @@ p {
     align-items: center;
     justify-content: center;
     margin-right: auto;
-    margin-left: 20px;
 }
 
 .bot-header-close {
@@ -179,7 +182,6 @@ p {
     align-items: center;
     justify-content: center;
     margin-left: auto;
-    margin-right: 20px;
 }
 
 .bot-header-close i {
@@ -203,7 +205,6 @@ p {
     flex-direction: column;
     height: 400px;
     background-color: #F1F1F1;
-    padding: 10px;
     overflow-y: auto;
 }
 
@@ -246,7 +247,6 @@ p {
 }
 
 .bot-img {
-    /*padding: 16px 4px;*/
     height: 40px;
     width: 40px;
 }
@@ -337,7 +337,6 @@ p {
     flex-direction: row;
     height: 30px;
     width: 100%;
-    padding: 0px 10px;
     box-sizing: border-box;
     background-color: #F1F1F1;
 }
@@ -371,14 +370,12 @@ p {
     display: flex;
     background-color: #F1F1F1;
     box-sizing: border-box;
-    padding-bottom: 5px;
 }
 
 .bot-footer-input {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px;
     width: 100%;
 }
 
