@@ -1,16 +1,12 @@
 :root {
     --background-primary: #232323;
     --background-secondary: #2C2D2F;
-    --background-tertiary: #17181B;
-    --background-overlay: #17181b80;
-    --background-gradient: #00000099;
 
     --text-primary: #ffffff;
-    --text-secondary: #777777;
-    --text-accent: #2980b9;
+    --text-secondary: #272727;
 
-    --border-default: #202226;
-    --hover-primary: #34495e;
+    --bot-color-primary: #05CD66;
+    --bot-color-secondary: #D9D9D9;
 }
 
 *,
@@ -61,7 +57,7 @@ p {
     background: var(--background-secondary);
     padding: 60px 40px;
     border-radius: 25px;
-    box-shadow: 0 8px 20px var(--background-gradient);
+    box-shadow: 0 8px 8px var(--bot-color-primary);
     backdrop-filter: blur(8px);
     max-width: 800px;
     width: 90%;
@@ -89,8 +85,7 @@ p {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    padding: 10px;
-    background-color: var(--text-accent);
+    background-color: transparent;
 }
 
 .chat-bot .bot-logo:hover+.bot-reminder {
@@ -115,7 +110,6 @@ p {
     border: 2px solid var(--text-accent);
     width: max-content;
     opacity: 0;
-
     transform: translateX(10px);
     pointer-events: none;
     transition: 0.3s ease;
@@ -153,12 +147,13 @@ p {
 }
 
 .bot-container-part {
+    background-color: var(--bot-color-secondary);
     padding: 10px;
 }
 
 .bot-header {
     color: var(--text-primary);
-    background-color: #272727;
+    background-color: var(--bot-color-primary);
     height: 60px;
     display: flex;
     flex-direction: row;
@@ -196,7 +191,7 @@ p {
 }
 
 .bot-header-close i:hover {
-    color: #10c98f;
+    color: var(--text-secondary);
 }
 
 /* bot body */
@@ -204,7 +199,7 @@ p {
     display: flex;
     flex-direction: column;
     height: 400px;
-    background-color: #F1F1F1;
+    background-color: var(--bot-color-secondary);
     overflow-y: auto;
 }
 
@@ -215,20 +210,21 @@ p {
     flex-direction: column;
     align-items: flex-end;
     margin: 10px 0px;
+    color: var(--text-secondary);
 }
 
 .pre-questions-area button {
-    background-color: #E5E5E5;
-    color: #272727;
+    background-color: #E5E5E5;    
     border-radius: 20px;
     border: 2px solid transparent;
     padding: 2px 12px;
-    margin-bottom: 6px;
+    margin-bottom: 12px;
     height: 30px;
+    transition: border 0.3s ease;
 }
 
 .pre-questions-area button:hover {
-    border: 2px solid #10c98f;
+    border: 2px solid var(--bot-color-primary);
     cursor: pointer;
 }
 
