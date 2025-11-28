@@ -68,6 +68,10 @@ p {
     width: 90%;
 }
 
+.showcase h2 { 
+    font-size: 1.2rem;
+}
+
 /* main bot */
 .chat-bot {
     position: fixed;
