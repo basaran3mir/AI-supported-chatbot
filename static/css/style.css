@@ -7,6 +7,8 @@
 
     --bot-color-primary: #05CD66;
     --bot-color-secondary: #D9D9D9;
+
+    --button-color-primary: #F1F1F1;
 }
 
 *,
@@ -72,6 +74,11 @@ p {
     user-select: none;
 }
 
+.chat-bot button,
+.chat-bot input {
+    background-color: var(--button-color-primary);
+}
+
 /* bot logo */
 .chat-bot .bot-logo {
     width: 80px;
@@ -88,11 +95,6 @@ p {
     background-color: transparent;
 }
 
-.chat-bot .bot-logo:hover+.bot-reminder {
-    opacity: 1;
-    visibility: visible;
-}
-
 .chat-bot .bot-logo img {
     width: 100%;
     height: 100%;
@@ -107,7 +109,7 @@ p {
     right: 20px;
     padding: 20px;
     border-radius: 20px;
-    border: 2px solid var(--text-accent);
+    border: 2px solid var(--bot-color-primary);
     width: max-content;
     opacity: 0;
     transform: translateX(10px);
@@ -118,6 +120,11 @@ p {
 .chat-bot.showing .bot-reminder {
     opacity: 0 !important;
     pointer-events: none !important;
+}
+
+.chat-bot .bot-logo:hover+.bot-reminder {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* bot container */
@@ -132,7 +139,6 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    background-color: var(--background-primary);
     width: 350px;
     max-height: 600px;
     transform: translateY(20px);
@@ -146,12 +152,12 @@ p {
     pointer-events: auto;
 }
 
-.bot-container-part {
-    background-color: var(--bot-color-secondary);
+.chat-bot .bot-container .bot-container-part {
+    background-color: var(--text-primary);
     padding: 10px;
 }
 
-.bot-header {
+.chat-bot .bot-container .bot-container-part.bot-header {
     color: var(--text-primary);
     background-color: var(--bot-color-primary);
     height: 60px;
@@ -159,7 +165,7 @@ p {
     flex-direction: row;
 }
 
-.bot-header-name {
+.chat-bot .bot-container .bot-container-part.bot-header .bot-header-name {
     width: fit-content;
     height: 100%;
     background-color: transparent;
@@ -169,7 +175,7 @@ p {
     margin-right: auto;
 }
 
-.bot-header-close {
+.chat-bot .bot-container .bot-container-part.bot-header .bot-header-close {
     width: fit-content;
     height: 100%;
     background-color: transparent;
@@ -179,7 +185,7 @@ p {
     margin-left: auto;
 }
 
-.bot-header-close i {
+.chat-bot .bot-container .bot-container-part.bot-header .bot-header-close i {
     font-size: 25px;
     transition: color 0.3s ease;
     cursor: pointer;
@@ -190,31 +196,28 @@ p {
     justify-content: center;
 }
 
-.bot-header-close i:hover {
+.chat-bot .bot-container .bot-container-part.bot-header .bot-header-close i:hover {
     color: var(--text-secondary);
 }
 
 /* bot body */
-.bot-body {
+.chat-bot .bot-container .bot-container-part.bot-body {
     display: flex;
     flex-direction: column;
     height: 400px;
-    background-color: var(--bot-color-secondary);
     overflow-y: auto;
 }
 
-.pre-questions-area {
+.chat-bot .bot-container .bot-container-part.bot-body .pre-questions-area {
     height: fit-content;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    margin: 10px 0px;
     color: var(--text-secondary);
 }
 
-.pre-questions-area button {
-    background-color: #E5E5E5;    
+.chat-bot .bot-container .bot-container-part.bot-body .pre-questions-area button {
     border-radius: 20px;
     border: 2px solid transparent;
     padding: 2px 12px;
@@ -223,12 +226,12 @@ p {
     transition: border 0.3s ease;
 }
 
-.pre-questions-area button:hover {
+.chat-bot .bot-container .bot-container-part.bot-body .pre-questions-area button:hover {
     border: 2px solid var(--bot-color-primary);
     cursor: pointer;
 }
 
-.bot-body-bot-part {
+.chat-bot .bot-container .bot-container-part.bot-body .bot-body-bot-part {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -236,24 +239,28 @@ p {
     margin-bottom: 10px;
 }
 
-.bot-body-bot-messages {
+.chat-bot .bot-container .bot-container-part.bot-body> :last-child.bot-body-bot-part {
+    margin-bottom: 0;
+}
+
+.chat-bot .bot-container .bot-container-part.bot-body .bot-body-bot-part .bot-body-bot-messages {
     width: 100%;
     display: flex;
     flex-direction: row;
 }
 
-.bot-img {
+.chat-bot .bot-container .bot-container-part.bot-body .bot-body-bot-part .bot-body-bot-messages .bot-img {
     height: 40px;
     width: 40px;
 }
 
-.bot-body-bot-responses {
+.chat-bot .bot-container .bot-container-part.bot-body .bot-body-bot-part .bot-body-bot-messages .bot-body-bot-responses {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-.bot-message-div {
+.chat-bot .bot-container .bot-container-part.bot-body .bot-body-bot-part .bot-body-bot-messages .bot-body-bot-responses .bot-message-div {
     background-color: #E5E5E5;
     padding: 20px;
     border-radius: 40px;
@@ -262,7 +269,7 @@ p {
     margin: 5px 0px;
 }
 
-.bot-message {
+.chat-bot .bot-container .bot-container-part.bot-body .bot-body-bot-part .bot-body-bot-messages .bot-body-bot-responses .bot-message-div .bot-message {
     margin-right: auto;
     background-color: #E5E5E5;
     color: #272727;
@@ -306,18 +313,18 @@ p {
     color: #fa1500;
 }
 
-.bot-body-user-part {
+.chat-bot .bot-container .bot-container-part.bot-body .bot-body-user-part {
     width: 100%;
-    margin-top: 10px;
+    margin-top: 0;
     margin-bottom: 10px;
 }
 
-.bot-body-user-messages {
+.chat-bot .bot-container .bot-container-part.bot-body .bot-body-user-part .bot-body-user-messages {
     display: flex;
     flex-direction: column;
 }
 
-.user-message {
+.chat-bot .bot-container .bot-container-part.bot-body .bot-body-user-part .bot-body-user-messages .user-message {
     max-width: 50%;
     margin: 0px 5px;
     margin-left: auto;
@@ -328,129 +335,76 @@ p {
     border-bottom-right-radius: 0px;
 }
 
-.bot-sss {
+/* bot sss */
+.chat-bot .bot-container .bot-container-part.bot-sss {
     display: flex;
     flex-direction: row;
-    height: 30px;
+    height: fit-content;
     width: 100%;
     box-sizing: border-box;
-    background-color: #F1F1F1;
+    gap: 10px;
+    padding-bottom: 0;
 }
 
-.bot-sss button {
-    height: 100%;
+.chat-bot .bot-container .bot-container-part.bot-sss button {
+    height: 30px;
     width: 50%;
-    background-color: #E5E5E5;
     color: #272727;
     border-radius: 20px;
     border: 2px solid transparent;
     box-sizing: border-box;
 }
 
-.bot-sss button:hover {
+.chat-bot .bot-container .bot-container-part.bot-sss button:hover {
     border: 2px solid #10c98f;
     cursor: pointer;
 }
 
-#getSss {
-    margin-right: 5px;
-}
-
-.space {
-    width: 5px;
-}
-
-.bot-footer {
+/* bot footer */
+.chat-bot .bot-container .bot-container-part.bot-footer {
     height: 70px;
     width: 100%;
     display: flex;
-    background-color: #F1F1F1;
     box-sizing: border-box;
 }
 
-.bot-footer-input {
+.chat-bot .bot-container .bot-container-part.bot-footer .bot-footer-input {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
 }
 
-.bot-footer-submit {
+.chat-bot .bot-container .bot-container-part.bot-footer .bot-footer-submit {
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.bot-footer-stop {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.bot-input {
+.chat-bot .bot-container .bot-container-part.bot-footer .bot-footer-input .bot-input {
     outline: none;
     border: 2px solid transparent;
-    background-color: #E5E5E5;
     height: 100%;
     width: 100%;
     border-radius: 20px;
     padding: 0 60px 0 20px;
 }
 
-.bot-input:focus {
+.chat-bot .bot-container .bot-container-part.bot-footer .bot-footer-input .bot-input:focus {
     border: 2px solid #10c98f;
 }
 
-.bot-submit {
+.chat-bot .bot-container .bot-container-part.bot-footer .bot-footer-submit .bot-submit {
     background-color: transparent;
     border: 0 !important;
     cursor: pointer;
     position: absolute;
     right: 20px;
-}
-
-.send-img {
-    transition: transform 0.2s ease;
-}
-
-.bot-stop {
-    background-color: transparent;
-    border: 0 !important;
-    cursor: pointer;
-    position: absolute;
-    right: 20px;
-    display: none;
-}
-
-.bot-stop img {
-    height: 25px;
-}
-
-.bot-stop:hover img {
-    content: url('../images/stop-button-green.png');
-}
-
-.bot-submit img {
-    height: 25px;
-}
-
-.bot-submit:hover img {
-    content: url('../images/send-icon-green.png');
-    transform: rotate(-45deg);
 }
 
 @media (max-width: 768px) {
     .bot-reminder {
-        display: none !important;
-    }
-
-    .remove-button {
-        display: none !important;
-    }
-
-    .bot-header-close {
         display: none !important;
     }
 }
