@@ -1,0 +1,44 @@
+{
+    "en": {
+        "head": {
+            "title": "Emir Bot"
+        },
+        "content": {
+            "showcase": {
+                "status": "Under development...",
+                "info": "But you can still try."
+            }
+        },
+        "bot": {
+            "reminder": {
+                "message": "Hello, I am Emir Bot!"
+            },
+            "container": {
+                "botName": "Emir Bot",
+                "LAQ": "Latest Asked Questions",
+                "FAQ": "Frequently Askes Questions"
+            }
+        }
+    },
+    "tr": {
+        "head": {
+            "title": "Emir Bot"
+        },
+        "content": {
+            "showcase": {
+                "status": "Geliştirme aşamasında...",
+                "info": "Ancak yine de deneyebilirsiniz."
+            }
+        },
+        "bot": {
+            "reminder": {
+                "message": "Merhaba, ben Emir Bot!"
+            },
+            "container": {
+                "botName": "Emir Bot",
+                "LAQ": "Son sorulan sorular",
+                "FAQ": "Sık sorulan sorular"
+            }
+        }
+    }
+}

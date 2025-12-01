@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="This website includes Emir Can Başaran's personal chatBot.">
-    <title>Emir Bot</title>
+    <meta name="description" content="This website includes Emir Can Başaran's personal chat bot.">
+    <title data-key="head.title"></title>
     <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
     <link rel="stylesheet" href="static/css/style.css">
     <script type="module" src="static/js/script.js" defer></script>
@@ -23,8 +23,8 @@
 <body>
     <main class="content">
         <div class="showcase">
-            <h1>Under development...</h1>
-            <h2>But you can still try.</h2>
+            <h1 data-key="content.showcase.status"></h1>
+            <h2 data-key="content.showcase.info"></h2>
         </div>
     </main>
     <div class="chat-bot" id="chatBot">
@@ -32,12 +32,12 @@
             <img src="static/images/logo_120x120.png" alt="Bot logo">
         </button>
         <div class="bot-reminder" id="botReminder">
-            <span>Merhaba, ben Emir Bot!</span>
+            <span data-key="bot.reminder.message"></span>
         </div>
         <div class="bot-container" id="botContainer">
             <div class="bot-container-part bot-header" id="botHeader">
                 <div class="bot-header-name">
-                    <h3>Emir Bot</h3>
+                    <h3 data-key="bot.container.botName"></h3>
                 </div>
                 <div class="bot-header-close">
                     <i class="fa-solid fa-xmark" id="botHeaderClose"></i>
@@ -46,12 +46,8 @@
             <div class="bot-container-part bot-body" id="botBody">
             </div>
             <div class="bot-container-part bot-sss">
-                <button class="bot-sss-button" id="getSss" aria-label="Show RAQ">
-                    Son Sorulan Sorular
-                </button>
-                <button class="bot-sss-button" id="getSsl" aria-label="Show FAQ">
-                    Sık Sorulan Sorular
-                </button>
+                <button data-key="bot.container.LAQ" class="bot-sss-button" id="getSss" aria-label="Show RAQ"></button>
+                <button data-key="bot.container.FAQ" class="bot-sss-button" id="getSsl" aria-label="Show FAQ"></button>
             </div>
             <div class="bot-container-part bot-footer" id="botFooter">
                 <div class="bot-footer-input">
