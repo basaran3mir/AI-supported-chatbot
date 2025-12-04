@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     //MAIN FS
-    function createBotMessageContainer() {
+    async function createBotMessageContainer() {
 
         const botMessageTopDiv = document.createElement('div');
         botMessageTopDiv.classList.add('bot-body-bot-part');
@@ -229,7 +229,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         botMessageTopDiv.appendChild(botMessagesDiv);
         botBody.appendChild(botMessageTopDiv);
 
-        return { botMessageTag, responseDiv };
+        botTypeWriterEffect(botMessageTag, '. . .', 100);
+        await delay(1500);
+
+        return await { botMessageTag, responseDiv };
     }
 
     function addUserMessage(userMessage) {
@@ -259,25 +262,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function sendStaticMessageFromBotToUser(botMessage) {
-
-        const { botMessageTag } = createBotMessageContainer();
-
-        botTypeWriterEffect(botMessageTag, '. . .', 100);
-        await delay(1500);
+        const { botMessageTag } = await createBotMessageContainer();
         botTypeWriterEffect(botMessageTag, botMessage, 25);
-
-        botBody.scrollTop = botBody.scrollHeight;
-
     }
 
     async function sendDynamicMessageFromBotToUser(userMessage) {
 
-        const { botMessageTag, responseDiv } = createBotMessageContainer();
+        const { botMessageTag, responseDiv } = await createBotMessageContainer();
 
-        botTypeWriterEffect(botMessageTag, '. . .', 100);
+        //Half-dynamic messages (for now because this feature needs database)
+        if (userMessage == "Son Sorulan Sorular" || userMessage == "Sık Sorulan Sorular") {
+            botTypeWriterEffect(botMessageTag, "Şu an bu bilgileri sağlayamıyorum. Yardımcı olmamı istediğiniz farklı bi konu var mı?", 25);
+            return;
+        }
+
         const responseData = await predict(userMessage, modelType);
-        await delay(1500);
-
         const OK = "predict-is-acceptable";
         const BETWEEN = "predict-is-between-min-and-max-prob";
         const BELOW = "predict-is-below-min-prob";
@@ -295,8 +294,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         else if (responseData.return_code === BETWEEN) {
 
             const text = (modelType === "MultinomialNB")
-                ? "Hangisini demek istediniz?"
-                : "Seçeneklerim";
+                ? "Hangisini sormak istediniz?"
+                : "Tekrar deneyelim.";
 
             botTypeWriterEffect(botMessageTag, text, 25);
 
@@ -316,6 +315,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const notFoundBtn = document.createElement('button');
             notFoundBtn.classList.add('bot-message-button');
+            notFoundBtn.classList.add('not-found-button');
             notFoundBtn.textContent = "Aradığım burada değil";
 
             notFoundBtn.onclick = () => {
@@ -327,7 +327,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     sendDynamicMessageFromBotToUser(responseData.question);
                 }
                 else {
-                    sendStaticMessageFromBotToUser("Daha fazla bilgi için: ebasaran999@gmail.com");
+                    sendStaticMessageFromBotToUser("Daha fazla bilgi için: ebasaran999@gmail.com mail adresinden iletişim kurabilirsiniz.");
                 }
             };
 
@@ -335,7 +335,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             responseDiv.appendChild(buttonArea);
         }
 
-        botBody.scrollTop = botBody.scrollHeight;
     }
 
     function sendStaticMessageFromUserToBot(userMessage) {
@@ -363,6 +362,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         let index = 0;
         const interval = setInterval(() => {
             element.innerHTML += text.charAt(index++);
+            botBody.scrollTop = botBody.scrollHeight;
             if (index > text.length) {
                 completeTyping();
             }

@@ -44,8 +44,6 @@ class LinearSVCOperations:
         model = LinearSVC()
         model.fit(x_train_tfidf, y_train)
         y_pred2 = model.predict(x_test_tfidf)
-        print("Model training is done.")
-        print(f"Model accuracy: {accuracy_score(y_test,y_pred2) * 100:.2f}%")
 
         self.saveModel(model, self.model_file)
         return model
@@ -54,13 +52,10 @@ class LinearSVCOperations:
         joblib.dump(model, model_file)
         
     def loadModel(self, model_file):
-        print("Model is loading:", model_file)
         if os.path.exists(model_file):
             loaded_model = joblib.load(model_file)
-            print("Model loaded.")
             return loaded_model
         else:
-            print("Model not found.")
             return False
 
     def checkModel(self):

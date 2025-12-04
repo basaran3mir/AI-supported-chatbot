@@ -37,9 +37,6 @@ class MultinomialNBOperations:
         predictions = model.predict(texts_test)
         accuracy = accuracy_score(labels_test, predictions)
 
-        print("Model training is done.")
-        print(f"Model accuracy: {accuracy * 100:.2f}%")
-
         self.saveModel(model, self.model_file)
 
         return model
@@ -48,13 +45,10 @@ class MultinomialNBOperations:
         joblib.dump(model, model_file)
         
     def loadModel(self, model_file):
-        print("Model is loading:", model_file)
         if os.path.exists(model_file):
             loaded_model = joblib.load(model_file)
-            print("Model loaded.")
             return loaded_model
         else:
-            print("Model not found.")
             return False
 
     def checkModel(self):
@@ -71,13 +65,11 @@ class MultinomialNBOperations:
                 extra_data = json.load(extra_file)
 
             combined_intents = data.get('intents', []) + extra_data.get('intents', [])
-            print(combined_intents)
 
         except (FileNotFoundError, json.JSONDecodeError):
             return None
 
         for intent in combined_intents:
-            print(intent.get('tag', '').strip().lower())
             if intent.get('tag', '').strip().lower() == text.strip().lower():
                 return [ResponseObject(intent.get('tag', ''), "1.0000", intent.get('response', None))]
 

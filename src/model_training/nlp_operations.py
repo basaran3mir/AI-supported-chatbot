@@ -75,7 +75,6 @@ class NLPOperations:
         return words
 
     def do_all(self, text):
-        print(f"Question: {text}")
         sentences = self.do_tokenize_TR(text)
         processed_sentences = []
     
@@ -87,7 +86,6 @@ class NLPOperations:
 
         final_text = ' '.join(processed_sentences)
 
-        print(f"Processed question: {final_text}")
         return final_text
 
     def csv_to_nlp(self, input_file, output_file):
@@ -100,5 +98,3 @@ class NLPOperations:
         nan_indices = df[df.isnull().any(axis=1)].index
         df.drop(nan_indices, inplace=True)
         df.to_csv(output_file, index=False)
-
-        print(f"New dataset saved to {output_file}.")

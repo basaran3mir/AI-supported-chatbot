@@ -281,14 +281,15 @@ p {
 }
 
 .bot-message-buttons {
+    margin-top: 10px;
     padding: 10px;
-    background-color: var(--bot-color-secondary);
+    background-color: var(--button-color-primary);
     border-radius: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 85%;
+    width: 80%;
     border-top-left-radius: 0px;
 }
 
@@ -308,12 +309,12 @@ p {
     border-bottom: 1px solid var(--bot-color-primary);
 }
 
-#botMessageButtonNFO {
+.bot-message-button.not-found-button {
     color: var(--error-color-primary);
     border-bottom: 0px;
 }
 
-#botMessageButtonNFO:hover {
+.bot-message-button.not-found-button:hover {
     color: var(--error-color-hover-primary);
 }
 
