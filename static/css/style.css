@@ -355,6 +355,7 @@ p {
     border-radius: 20px;
     border: 2px solid transparent;
     box-sizing: border-box;
+    transition: border 0.3s ease;
 }
 
 .chat-bot .bot-container .bot-container-part.bot-sss button:hover {
@@ -375,13 +376,7 @@ p {
     align-items: center;
     justify-content: center;
     width: 100%;
-}
-
-.chat-bot .bot-container .bot-container-part.bot-footer .bot-footer-submit {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: relative;
 }
 
 .chat-bot .bot-container .bot-container-part.bot-footer .bot-footer-input .bot-input {
@@ -391,18 +386,43 @@ p {
     width: 100%;
     border-radius: 20px;
     padding: 0 60px 0 20px;
+    transition: border 0.3s ease;
 }
 
 .chat-bot .bot-container .bot-container-part.bot-footer .bot-footer-input .bot-input:focus {
     border: 2px solid #10c98f;
 }
 
-.chat-bot .bot-container .bot-container-part.bot-footer .bot-footer-submit .bot-submit {
+.chat-bot .bot-container .bot-container-part.bot-footer .bot-footer-input .submit-button {
     background-color: transparent;
     border: 0 !important;
     cursor: pointer;
     position: absolute;
-    right: 20px;
+    right: 0;
+    transform: translate(0, -50%);
+    top: 50%;
+    padding: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 20px;
+}
+
+.chat-bot .bot-container .bot-container-part.bot-footer .bot-footer-input .submit-button i {
+    font-size: 18px;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+}
+
+.chat-bot .bot-container .bot-container-part.bot-footer .bot-footer-input .submit-button:hover i {
+    color: var(--bot-color-primary);
+}
+
+.chat-bot .bot-container .bot-container-part.bot-footer .bot-footer-input .bot-input:focus i {
+    color: var(--bot-color-primary);
+}
+
+.chat-bot .bot-container .bot-container-part.bot-footer .bot-footer-input .bot-input:focus + .submit-button i {
+    color: var(--bot-color-primary) !important;
 }
 
 @media (max-width: 768px) {

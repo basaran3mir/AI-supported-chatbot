@@ -17,10 +17,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const botLogo = document.getElementById('botLogo');
     const botReminder = document.getElementById('botReminder');
     const botContainer = document.getElementById('botContainer');
-    const botBody = document.getElementById('botBody');
-    const submitButton = document.getElementById('botSubmit');
-    const botInput = document.getElementById('botInput');
     const closer = document.getElementById("botHeaderClose");
+    const botBody = document.getElementById('botBody');
+    const getLAQButton = document.getElementById("getLAQ");
+    const getFAQButton = document.getElementById("getFAQ");
+    const botInput = document.getElementById('botInput');
+    const submitButton = document.getElementById('submitButton');
 
     function init() {
         setOnClickers();
@@ -61,6 +63,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         })
         closer.addEventListener('click', function () {
             togglebotWindow();
+        })
+
+        getLAQButton.addEventListener('click', function () {
+            sendDynamicMessageFromUserToBot("Son Sorulan Sorular");
+        })
+        getFAQButton.addEventListener('click', function () {
+            sendDynamicMessageFromUserToBot("Sık Sorulan Sorular");
         })
     }
 
@@ -352,6 +361,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         let index = 0;
         const interval = setInterval(() => {
             element.innerHTML += text.charAt(index++);
+            botBody.scrollTop = botBody.scrollHeight;
             if (index > text.length) {
                 completeTyping();
             }
