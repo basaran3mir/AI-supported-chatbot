@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         botTypeWriterEffect(botMessageTag, '. . .', 100);
         await delay(1500);
 
-        return await { botMessageTag, responseDiv };
+        return { botMessageTag, responseDiv };
     }
 
     function addUserMessage(userMessage) {
@@ -358,6 +358,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function botTypeWriterEffect(element, text, typewriterSpeed) {
         element.innerHTML = '';
+        submitButtonLogo.classList.replace("fa-paper-plane", "fa-stop");
 
         let index = 0;
         const interval = setInterval(() => {
@@ -374,13 +375,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
         botInput.addEventListener('keydown', function (event) {
             if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
                 completeTyping();
             }
         });
 
         function completeTyping() {
             clearInterval(interval);
+            submitButtonLogo.classList.replace("fa-stop", "fa-paper-plane");
         }
     }
 

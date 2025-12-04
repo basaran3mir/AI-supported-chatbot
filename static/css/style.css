@@ -295,8 +295,7 @@ p {
 
 .bot-message-button {
     width: 80%;
-    margin-right: auto;
-    margin: 1px 0px;
+    margin: 2px 0px;
     padding: 8px;
     background-color: var(--bot-color-secondary);
     color: var(--text-secondary);
