@@ -15,13 +15,11 @@ def transparentBG(img_input_path, img_output_path):
 
     img.putdata(new_data)
     img.save(img_output_path, "PNG")
-    print("Tamamlandı!")
 
 def resizeImage(img_input_path, img_output_path, width, height):
     img = Image.open(img_input_path)
     img = img.resize((width, height), Image.LANCZOS)
     img.save(img_output_path)
-    print("Resize işlemi tamamlandı!")
 
 transparentBG("static/images/fullres-logo.png", "static/images/logo.png")
 resizeImage("static/images/logo.png", "static/images/logo_120x120.png", 120, 120)
