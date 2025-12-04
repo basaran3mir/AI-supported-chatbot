@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const getFAQButton = document.getElementById("getFAQ");
     const botInput = document.getElementById('botInput');
     const submitButton = document.getElementById('submitButton');
+    const submitButtonLogo = document.getElementById("submitButton").querySelector("i");
 
     function init() {
         setOnClickers();
@@ -39,7 +40,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const userMessage = botInput.value.trim();
             if (userMessage !== '') {
                 sendDynamicMessageFromUserToBot(userMessage);
-                botInput.blur();
             }
         }
 
@@ -202,6 +202,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     //MAIN FS
     function createBotMessageContainer() {
+
         const botMessageTopDiv = document.createElement('div');
         botMessageTopDiv.classList.add('bot-body-bot-part');
 
@@ -258,6 +259,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function sendStaticMessageFromBotToUser(botMessage) {
+
         const { botMessageTag } = createBotMessageContainer();
 
         botTypeWriterEffect(botMessageTag, '. . .', 100);
@@ -265,6 +267,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         botTypeWriterEffect(botMessageTag, botMessage, 25);
 
         botBody.scrollTop = botBody.scrollHeight;
+
     }
 
     async function sendDynamicMessageFromBotToUser(userMessage) {
@@ -356,12 +359,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function botTypeWriterEffect(element, text, typewriterSpeed) {
         element.innerHTML = '';
-        submitButton.style.display = 'none';
 
         let index = 0;
         const interval = setInterval(() => {
             element.innerHTML += text.charAt(index++);
-            botBody.scrollTop = botBody.scrollHeight;
             if (index > text.length) {
                 completeTyping();
             }
@@ -380,7 +381,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         function completeTyping() {
             clearInterval(interval);
-            submitButton.style.display = 'block';
         }
     }
 
