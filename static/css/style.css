@@ -213,6 +213,7 @@ p {
     overflow-y: auto;
     overflow-x: hidden;
     gap: 20px;
+    scroll-behavior: smooth;
 }
 
 .chat-bot .bot-container .bot-container-part.bot-body .pre-questions-area {
@@ -274,6 +275,7 @@ p {
     border-radius: 40px;
     border-bottom-left-radius: 0px;
     width: 80%;
+    min-height: 58px;
 }
 
 .chat-bot .bot-container .bot-container-part.bot-body .bot-body-bot-part .bot-body-bot-messages .bot-body-bot-responses .bot-message-div .bot-message {

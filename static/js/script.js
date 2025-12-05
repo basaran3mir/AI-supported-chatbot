@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Initialization failed:', err);
     }
 
-
     let modelType = "MultinomialNB";
 
     const bot = document.getElementById('chatBot')
@@ -25,58 +24,65 @@ document.addEventListener('DOMContentLoaded', async () => {
     const submitButton = document.getElementById('submitButton');
     const submitButtonLogo = document.getElementById("submitButton").querySelector("i");
 
+    let initDone = false;
+
+    const botState = {
+        mode: "idle",
+        stopFn: null
+    };
+
     function init() {
-        setOnClickers();
+        if (initDone) return;
+        initDone = true;
+
         setPreQuestions();
+        setOnClickers();
         setDraggablebot();
     }
 
+    function toggleBotWindow() {
+        bot.classList.toggle("showing");
+    }
+
     function setOnClickers() {
-        function togglebotWindow() {
-            bot.classList.toggle("showing");
-        }
-
-        function handleUserMessage() {
-            const userMessage = botInput.value.trim();
-            if (userMessage !== '') {
-                sendDynamicMessageFromUserToBot(userMessage);
-            }
-        }
-
         botLogo.addEventListener('click', function () {
-            togglebotWindow();
+            toggleBotWindow();
         })
-        submitButton.addEventListener('click', function () {
-            handleUserMessage();
-        })
-        botInput.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-                handleUserMessage();
+        submitButton.addEventListener("click", () => {
+            if (botState.mode === "thinking" || botState.mode === "typing") {
+                if (botState.stopFn) botState.stopFn();
+                return;
             }
-        });
-        botInput.addEventListener('focus', function () {
-            this.setAttribute('placeholder', '');
-        });
-        botInput.addEventListener('blur', function () {
-            this.setAttribute('placeholder', '. . .');
-        })
-        closer.addEventListener('click', function () {
-            togglebotWindow();
-        })
 
+            sendUserMessage(botInput.value);
+
+            const message = botInput.value.trim();
+            if (message !== '') {
+                sendUserMessage(message);
+            }
+
+        });
+        closer.addEventListener('click', function () {
+            toggleBotWindow();
+        })
         getLAQButton.addEventListener('click', function () {
-            sendDynamicMessageFromUserToBot("Son Sorulan Sorular");
+            sendUserMessage("Son Sorulan Sorular");
         })
         getFAQButton.addEventListener('click', function () {
-            sendDynamicMessageFromUserToBot("Sık Sorulan Sorular");
+            sendUserMessage("Sık Sorulan Sorular");
         })
+        botBody.addEventListener("click", (event) => {
+            if (event.target.classList.contains("start-button")) {
+                const text = event.target.textContent;
+                sendUserMessage(text);
+            }
+        });
     }
 
     function setPreQuestions() {
         const preQuestionsArea = document.createElement('div');
         preQuestionsArea.classList.add('pre-questions-area');
-        preQuestionsArea.id = "preQuestionsArea"
+        preQuestionsArea.id = "preQuestionsArea";
 
         const preQuestions = [
             "Merhaba",
@@ -85,18 +91,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             "Size nasıl ulaşabilirim?"
         ];
 
-        for (let i = 0; i < preQuestions.length; i++) {
+        preQuestions.forEach(text => {
             const button = document.createElement('button');
             button.classList.add('start-button');
-            button.id = "startButton"
-            button.textContent = preQuestions[i];
-
-            button.addEventListener('click', function () {
-                sendDynamicMessageFromUserToBot(button.textContent)
-            });
-
+            button.textContent = text;
             preQuestionsArea.appendChild(button);
-        }
+        });
 
         botBody.appendChild(preQuestionsArea);
     }
@@ -201,7 +201,45 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     //MAIN FS
-    async function createBotMessageContainer() {
+    function removePreQuestionsArea() {
+        const area = document.getElementById("preQuestionsArea");
+        if (botBody.contains(area)) {
+            botBody.removeChild(area);
+        }
+    }
+
+    function addUserMessage(message) {
+        const userMessageTopDiv = document.createElement('div');
+        userMessageTopDiv.classList.add('bot-body-user-part');
+
+        const userMessageElement = document.createElement('p');
+        userMessageElement.textContent = message;
+        userMessageElement.classList.add('user-message');
+
+        const userMessagesDiv = document.createElement('div');
+        userMessagesDiv.classList.add('bot-body-user-messages');
+
+        userMessagesDiv.appendChild(userMessageElement);
+        userMessageTopDiv.appendChild(userMessagesDiv);
+        botBody.appendChild(userMessageTopDiv);
+
+        botInput.value = '';
+        botBody.scrollTop = botBody.scrollHeight;
+    }
+
+    function sendUserMessage(message, isStatic = false) {
+        if (!message || message.trim() === "") return;
+
+        removePreQuestionsArea();
+        addUserMessage(message);
+
+        if (!isStatic) {
+            modelType = "MultinomialNB";
+            sendBotMessage(message);
+        }
+    }
+
+    async function addBotMessage() {
 
         const botMessageTopDiv = document.createElement('div');
         botMessageTopDiv.classList.add('bot-body-bot-part');
@@ -229,126 +267,122 @@ document.addEventListener('DOMContentLoaded', async () => {
         botMessageTopDiv.appendChild(botMessagesDiv);
         botBody.appendChild(botMessageTopDiv);
 
-        botTypeWriterEffect(botMessageTag, '. . .', 100);
-        await delay(1500);
-
         return { botMessageTag, responseDiv };
     }
 
-    function addUserMessage(userMessage) {
-        const userMessageTopDiv = document.createElement('div');
-        userMessageTopDiv.classList.add('bot-body-user-part');
+    function showThinkingAnimation(element) {
+        botState.mode = "thinking";
 
-        const userMessageElement = document.createElement('p');
-        userMessageElement.textContent = userMessage;
-        userMessageElement.classList.add('user-message');
+        submitButtonLogo.classList.replace("fa-paper-plane", "fa-stop");
 
-        const userMessagesDiv = document.createElement('div');
-        userMessagesDiv.classList.add('bot-body-user-messages');
+        let dots = 1;
+        element.textContent = ".";
 
-        userMessagesDiv.appendChild(userMessageElement);
-        userMessageTopDiv.appendChild(userMessagesDiv);
-        botBody.appendChild(userMessageTopDiv);
+        const interval = setInterval(() => {
+            if (botState.mode !== "thinking") {
+                clearInterval(interval);
+                return;
+            }
+            dots = (dots % 3) + 1;
+            element.textContent = ".".repeat(dots);
+            botBody.scrollTop = botBody.scrollHeight;
+        }, 300);
 
-        botInput.value = '';
-        botBody.scrollTop = botBody.scrollHeight;
+        const stopThinking = () => {
+            clearInterval(interval);
+            botState.mode = "idle";
+            botState.stopFn = null;
+            submitButtonLogo.classList.replace("fa-stop", "fa-paper-plane");
+        };
+
+        botState.stopFn = stopThinking;
+
+        return stopThinking;
     }
 
-    function removePreQuestionsArea() {
-        const area = document.getElementById("preQuestionsArea");
-        if (botBody.contains(area)) {
-            botBody.removeChild(area);
+    async function sendBotMessage(message, isStatic = false) {
+        if (!message) return;
+
+        const { botMessageTag } = await addBotMessage();
+
+        const stopThinking = showThinkingAnimation(botMessageTag);
+        const predictPromise = predict(message, modelType);
+        await delay(1500);
+        stopThinking();
+
+        if (isStatic) {
+            botTypeWriterEffect(botMessageTag, botMessage, 25);
         }
-    }
+        else {
+            let responseData;
+            try {
+                responseData = await predictPromise;
+            } catch (e) {
+                botTypeWriterEffect(botMessageTag, "Üzgünüm, şu an yardımcı olamıyorum.", 25);
+                return;
+            }
 
-    async function sendStaticMessageFromBotToUser(botMessage) {
-        const { botMessageTag } = await createBotMessageContainer();
-        botTypeWriterEffect(botMessageTag, botMessage, 25);
-    }
+            const OK = "predict-is-acceptable";
+            const BETWEEN = "predict-is-between-min-and-max-prob";
+            const BELOW = "predict-is-below-min-prob";
+            const ERROR = "error";
 
-    async function sendDynamicMessageFromBotToUser(userMessage) {
+            if (responseData.return_code === OK) {
+                botTypeWriterEffect(botMessageTag, responseData.response[0], 25);
+            }
+            else if (responseData.return_code === BELOW) {
+                botTypeWriterEffect(botMessageTag, "Üzgünüm, sorunu anlamadım.", 25);
+            }
+            else if (responseData.return_code === ERROR) {
+                botTypeWriterEffect(botMessageTag, "Üzgünüm, şu an yardımcı olamıyorum.", 25);
+            }
+            else if (responseData.return_code === BETWEEN) {
 
-        const { botMessageTag, responseDiv } = await createBotMessageContainer();
+                const text = (modelType === "MultinomialNB")
+                    ? "Hangisini sormak istediniz?"
+                    : "Tekrar deneyelim.";
 
-        //Half-dynamic messages (for now because this feature needs database)
-        if (userMessage == "Son Sorulan Sorular" || userMessage == "Sık Sorulan Sorular") {
-            botTypeWriterEffect(botMessageTag, "Şu an bu bilgileri sağlayamıyorum. Yardımcı olmamı istediğiniz farklı bi konu var mı?", 25);
-            return;
-        }
+                botTypeWriterEffect(botMessageTag, text, 25);
 
-        const responseData = await predict(userMessage, modelType);
-        const OK = "predict-is-acceptable";
-        const BETWEEN = "predict-is-between-min-and-max-prob";
-        const BELOW = "predict-is-below-min-prob";
-        const ERROR = "error";
+                const buttonArea = document.createElement('div');
+                buttonArea.classList.add('bot-message-buttons');
 
-        if (responseData.return_code === OK) {
-            botTypeWriterEffect(botMessageTag, responseData.response[0], 25);
-        }
-        else if (responseData.return_code === BELOW) {
-            botTypeWriterEffect(botMessageTag, "Üzgünüm, sorunu anlamadım.", 25);
-        }
-        else if (responseData.return_code === ERROR) {
-            botTypeWriterEffect(botMessageTag, "Üzgünüm, şu an yardımcı olamıyorum.", 25);
-        }
-        else if (responseData.return_code === BETWEEN) {
+                responseData.tag.forEach(option => {
+                    const btn = document.createElement('button');
+                    btn.classList.add('bot-message-button');
+                    btn.textContent = option;
+                    btn.onclick = () => {
+                        sendUserMessage(option);
+                        buttonArea.remove();
+                    };
+                    buttonArea.appendChild(btn);
+                });
 
-            const text = (modelType === "MultinomialNB")
-                ? "Hangisini sormak istediniz?"
-                : "Tekrar deneyelim.";
+                const notFoundBtn = document.createElement('button');
+                notFoundBtn.classList.add('bot-message-button');
+                notFoundBtn.classList.add('not-found-button');
+                notFoundBtn.textContent = "Aradığım burada değil";
 
-            botTypeWriterEffect(botMessageTag, text, 25);
-
-            const buttonArea = document.createElement('div');
-            buttonArea.classList.add('bot-message-buttons');
-
-            responseData.tag.forEach(option => {
-                const btn = document.createElement('button');
-                btn.classList.add('bot-message-button');
-                btn.textContent = option;
-                btn.onclick = () => {
-                    sendDynamicMessageFromUserToBot(option);
+                notFoundBtn.onclick = () => {
                     buttonArea.remove();
+                    sendUserMessage("Aradığım burada değil", true);
+
+                    if (modelType === "MultinomialNB") {
+                        modelType = "LinearSVC";
+                        sendBotMessage(responseData.question);
+                    }
+                    else {
+                        sendBotMessage("Daha fazla bilgi için: ebasaran999@gmail.com mail adresinden iletişim kurabilirsiniz.", true);
+                    }
                 };
-                buttonArea.appendChild(btn);
-            });
 
-            const notFoundBtn = document.createElement('button');
-            notFoundBtn.classList.add('bot-message-button');
-            notFoundBtn.classList.add('not-found-button');
-            notFoundBtn.textContent = "Aradığım burada değil";
-
-            notFoundBtn.onclick = () => {
-                buttonArea.remove();
-                sendStaticMessageFromUserToBot("Aradığım burada değil");
-
-                if (modelType === "MultinomialNB") {
-                    modelType = "LinearSVC";
-                    sendDynamicMessageFromBotToUser(responseData.question);
-                }
-                else {
-                    sendStaticMessageFromBotToUser("Daha fazla bilgi için: ebasaran999@gmail.com mail adresinden iletişim kurabilirsiniz.");
-                }
-            };
-
-            buttonArea.appendChild(notFoundBtn);
-            responseDiv.appendChild(buttonArea);
+                buttonArea.appendChild(notFoundBtn);
+                responseDiv.appendChild(buttonArea);
+            }
         }
 
-    }
 
-    function sendStaticMessageFromUserToBot(userMessage) {
-        if (!userMessage) return;
-        removePreQuestionsArea();
-        addUserMessage(userMessage);
-    }
 
-    function sendDynamicMessageFromUserToBot(userMessage) {
-        if (!userMessage) return;
-        removePreQuestionsArea();
-        addUserMessage(userMessage);
-        modelType = "MultinomialNB";
-        sendDynamicMessageFromBotToUser(userMessage);
     }
 
     //VISUAL FS
@@ -358,31 +392,31 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function botTypeWriterEffect(element, text, typewriterSpeed) {
         element.innerHTML = '';
+        let index = 0;
+
+        botState.mode = "typing";
         submitButtonLogo.classList.replace("fa-paper-plane", "fa-stop");
 
-        let index = 0;
         const interval = setInterval(() => {
-            element.innerHTML += text.charAt(index++);
-            botBody.scrollTop = botBody.scrollHeight;
-            if (index > text.length) {
-                completeTyping();
+            if (botState.mode !== "typing") {
+                clearInterval(interval);
+                return;
             }
 
+            element.innerHTML += text.charAt(index++);
+            botBody.scrollTop = botBody.scrollHeight;
+
+            if (index > text.length) completeTyping();
         }, typewriterSpeed);
-        submitButton.tabIndex = 0;
-        submitButton.addEventListener('click', () => {
-            completeTyping();
-        });
-        botInput.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter' && !event.shiftKey) {
-                completeTyping();
-            }
-        });
 
         function completeTyping() {
             clearInterval(interval);
+            botState.mode = "idle";
+            botState.stopFn = null;
             submitButtonLogo.classList.replace("fa-stop", "fa-paper-plane");
         }
+
+        botState.stopFn = completeTyping;
     }
 
     init()
